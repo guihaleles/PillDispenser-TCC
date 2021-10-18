@@ -1,0 +1,7 @@
+{
+  "name": "Dispensador de comprimidos - TCC",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

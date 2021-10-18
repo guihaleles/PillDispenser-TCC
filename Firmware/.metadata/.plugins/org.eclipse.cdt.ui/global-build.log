@@ -1,0 +1,60 @@
+21:51:55 **** Incremental Build of configuration Debug for project PillDispenserFirmware ****
+make -j4 all 
+Building file: ../Core/Src/main.c
+Invoking: MCU GCC Compiler
+C:\Users\guilherme.leles\Documents\GitHub\PillDispenser-TCC\Firmware\PillDispenserFirmware\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DUSE_HAL_DRIVER -DSTM32F401xE -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Core/Inc" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Drivers/STM32F4xx_HAL_Driver/Inc" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Middlewares/Third_Party/FreeRTOS/Source/include" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"C:/Users/guilherme.leles/Documents/GitHub/PillDispenser-TCC/Firmware/PillDispenserFirmware/Drivers/CMSIS/Include"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" -o "Core/Src/main.o" "../Core/Src/main.c"
+Finished building: ../Core/Src/main.c
+ 
+Building target: PillDispenserFirmware.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -specs=nosys.specs -specs=nano.specs -T"../STM32F401RETx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "PillDispenserFirmware.elf" @"objects.list"   -lm
+Finished building target: PillDispenserFirmware.elf
+ 
+make --no-print-directory post-build
+Generating hex and Printing size information:
+arm-none-eabi-objcopy -O ihex "PillDispenserFirmware.elf" "PillDispenserFirmware.hex"
+arm-none-eabi-size "PillDispenserFirmware.elf"
+   text	   data	    bss	    dec	    hex	filename
+  15476	     24	  20552	  36052	   8cd4	PillDispenserFirmware.elf
+ 
+21:52:16 **** Programming project PillDispenserFirmware on chip ****
+"C:\\Ac6\\SystemWorkbench\\plugins\\fr.ac6.mcu.externaltools.openocd.win32_1.23.0.201904120827\\tools\\openocd\\bin\\openocd.exe" -f stm32.flash.4903419884915462172.cfg -s "C:\\Users\\guilherme.leles\\Documents\\GitHub\\PillDispenser-TCC\\Firmware\\PillDispenserFirmware" -s "C:\\Ac6\\SystemWorkbench\\plugins\\fr.ac6.mcu.debug_2.5.0.201904120827\\resources\\openocd\\st_scripts" -c "program Debug/PillDispenserFirmware.elf verify reset " -c shutdown 
+Open On-Chip Debugger 0.10.0+dev-00021-g524e8c8 (2019-04-12-08:48)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+srst_only separate srst_nogate srst_open_drain connect_assert_srst
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+adapter speed: 8000 kHz
+adapter_nsrst_delay: 100
+Info : clock speed 8000 kHz
+Info : STLINK v2.1 JTAG v30 API v2 M19 VID 0x0483 PID 0x374B
+Info : using stlink api v2
+Info : Target voltage: 3.267107
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+Info : Stlink adapter speed set to 4000 kHz
+Info : STM32F401RETx.cpu: hardware has 6 breakpoints, 4 watchpoints
+Info : Listening on port 3333 for gdb connections
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x08003c48 msp: 0x20018000
+configuring PLL
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+Info : Stlink adapter speed set to 4000 kHz
+Info : Unable to match requested speed 8000 kHz, using 4000 kHz
+adapter speed: 4000 kHz
+** Programming Started **
+auto erase enabled
+Info : device id = 0x10016433
+Info : flash size = 512kbytes
+target halted due to breakpoint, current mode: Thread 
+xPSR: 0x61000000 pc: 0x20000046 msp: 0x20018000
+wrote 16384 bytes from file Debug/PillDispenserFirmware.elf in 0.662623s (24.146 KiB/s)
+** Programming Finished **
+** Verify Started **
+target halted due to breakpoint, current mode: Thread 
+xPSR: 0x61000000 pc: 0x2000002e msp: 0x20018000
+verified 15512 bytes in 0.224996s (67.328 KiB/s)
+** Verified OK **
+** Resetting Target **
+shutdown command invoked
