@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ConfigComponent } from './config/config.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 
 const routes: Routes = [
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'scheduler',
     component: SchedulerComponent,
+  },
+  {
+    path: 'config',
+    component: ConfigComponent,
   },
 ];
 

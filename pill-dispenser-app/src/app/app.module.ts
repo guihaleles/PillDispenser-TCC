@@ -9,9 +9,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { SchedulerComponent } from './scheduler/scheduler.component';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { ConfigComponent } from './config/config.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, SchedulerComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    SchedulerComponent,
+    ConfigComponent,
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -19,7 +26,10 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
     AppRoutingModule,
     CommonModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    BluetoothSerial,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
