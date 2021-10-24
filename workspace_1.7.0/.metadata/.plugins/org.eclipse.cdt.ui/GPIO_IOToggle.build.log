@@ -1,0 +1,10 @@
+16:50:39 **** Incremental Build of configuration Debug for project GPIO_IOToggle ****
+make -j4 all 
+arm-none-eabi-size   STM32F4xx-Nucleo.elf 
+   text	   data	    bss	    dec	    hex	filename
+   3796	     20	   1588	   5404	   151c	STM32F4xx-Nucleo.elf
+Finished building: default.size.stdout
+ 
+
+16:50:39 Build Finished. 0 errors, 0 warnings. (took 412ms)
+

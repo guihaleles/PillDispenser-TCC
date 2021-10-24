@@ -1,0 +1,20 @@
+17:41:53 **** Incremental Build of configuration Debug for project tcc_rtos ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -DSTM32_THREAD_SAFE_STRATEGY=2 -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Core/ThreadSafe -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "tcc_rtos.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\bianc\STM32CubeIDE\workspace_1.7.0\tcc_rtos\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="tcc_rtos.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: tcc_rtos.elf
+ 
+arm-none-eabi-size   tcc_rtos.elf 
+arm-none-eabi-objdump -h -S  tcc_rtos.elf  > "tcc_rtos.list"
+arm-none-eabi-objcopy  -O binary  tcc_rtos.elf  "tcc_rtos.bin"
+   text	   data	    bss	    dec	    hex	filename
+  14696	    120	   1816	  16632	   40f8	tcc_rtos.elf
+Finished building: default.size.stdout
+ 
+Finished building: tcc_rtos.bin
+ 
+Finished building: tcc_rtos.list
+ 
+
+17:41:54 Build Finished. 0 errors, 0 warnings. (took 1s.539ms)
+

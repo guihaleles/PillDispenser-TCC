@@ -1,0 +1,10 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo (1),org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tcc_rtos,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tcc
+eclipse.preferences.version=1
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo\ (1)/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo\ (1)/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32F4xx-Nucleo/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tcc_rtos/activeLaunchMode=run

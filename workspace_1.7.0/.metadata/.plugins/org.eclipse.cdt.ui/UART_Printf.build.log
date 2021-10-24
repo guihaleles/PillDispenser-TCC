@@ -1,0 +1,10 @@
+18:28:33 **** Incremental Build of configuration Debug for project UART_Printf ****
+make -j4 all 
+arm-none-eabi-size   STM32F4xx-Nucleo.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8852	    132	   1664	  10648	   2998	STM32F4xx-Nucleo.elf
+Finished building: default.size.stdout
+ 
+
+18:28:34 Build Finished. 0 errors, 0 warnings. (took 399ms)
+
