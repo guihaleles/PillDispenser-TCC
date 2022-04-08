@@ -8,6 +8,7 @@ import { DeviceActions } from '../bluetooth/codeMap.entity';
   styleUrls: ['./config.component.scss'],
 })
 export class ConfigComponent implements OnInit {
+  deviceMessage = 'Init';
   constructor(private readonly bluetoothService: BluetoothService) {}
 
   ngOnInit() {}
@@ -15,5 +16,8 @@ export class ConfigComponent implements OnInit {
   initConectionTest() {
     this.bluetoothService.toast('Iniciando teste de conexão');
     this.bluetoothService.sendCommand(DeviceActions.isAlive);
+    this.bluetoothService.deviceMessage$.subscribe((msg) => {
+      this.deviceMessage = msg;
+    });
   }
 }

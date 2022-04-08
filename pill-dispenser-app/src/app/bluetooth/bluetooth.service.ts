@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import {
   CODE_ACTION_MAP,
   DeviceActions,
@@ -15,12 +15,22 @@ interface Pairedlist {
   name: string;
 }
 
+export enum DeviceConnectionState {
+  disconnected = 'Desconectado',
+  connecting = 'Conectando',
+  connected = 'Conectado',
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class BluetoothService {
   pairedList: Pairedlist[];
-  deviceMessage$ = new Subject<DeviceMessage>();
+  deviceName = '';
+  deviceMessage$ = new Subject<string>();
+  deviceConnected$ = new BehaviorSubject<DeviceConnectionState>(
+    DeviceConnectionState.disconnected
+  );
   constructor(
     private bluetoothSerial: BluetoothSerial,
     public toastController: ToastController,
@@ -47,43 +57,49 @@ export class BluetoothService {
   }
 
   checkBluetoothEnabled() {
+    this.deviceConnected$.next(DeviceConnectionState.disconnected);
     this.bluetoothSerial.isEnabled().then(
       (success) => {
         this.listPairedDevices();
       },
       (error) => {
         this.toast(error);
-        // this.alert('Por favor Habilite o Bluetooth').then(() => {
-        //   this.checkBluetoothEnabled();
-        // });
+        this.alert('Por favor Habilite o Bluetooth').then(() => {
+          this.checkBluetoothEnabled();
+        });
       }
     );
   }
 
   listPairedDevices() {
+    this.deviceConnected$.next(DeviceConnectionState.connecting);
     this.bluetoothSerial.list().then(
       (data: Pairedlist[]) => {
         this.pairWithDeviceOnList(data);
       },
       (err) => {
         this.toast(err);
-        // this.alert('Por favor Habilite o Bluetooth').then(() => {
-        //   this.checkBluetoothEnabled();
-        // });
+        this.alert('Por favor Habilite o Bluetooth').then(() => {
+          this.checkBluetoothEnabled();
+        });
       }
     );
   }
 
   pairWithDeviceOnList(pairedlist: Pairedlist[]) {
     const device = pairedlist.filter(
-      (deviceItem) => deviceItem.name === 'HC-06'
+      (deviceItem) =>
+        deviceItem.name === 'HC-06' || 'NAUTO31' || this.deviceName
     )[0];
+    this.toast(device.name);
     if (device) {
       this.bluetoothSerial.connect(device.address).subscribe(
         (connectSuccess) => {
+          this.deviceConnected$.next(DeviceConnectionState.connected);
           this.deviceConnected();
         },
         (err) => {
+          this.deviceConnected$.next(DeviceConnectionState.disconnected);
           this.toast(err);
         }
       );
@@ -99,9 +115,11 @@ export class BluetoothService {
     this.bluetoothSerial.subscribe('\n').subscribe(
       (success: string) => {
         this.toast(success);
+        this.deviceMessage$.next(success);
       },
       (error) => {
         this.toast(error);
+        this.checkBluetoothEnabled();
       }
     );
   }
@@ -117,7 +135,7 @@ export class BluetoothService {
     const unit8Array = CODE_ACTION_MAP[deviceActions];
     this.bluetoothSerial.write(unit8Array).then(
       (success) => {
-        this.toast(success);
+        // this.toast(success);
       },
       (error) => {
         this.toast(error);

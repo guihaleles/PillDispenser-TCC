@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { BluetoothService } from '../bluetooth/bluetooth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,13 @@ export class HeaderComponent implements OnInit {
   battery = 0;
   bluetoothStatus = 'Desconectado';
 
-  constructor() {}
+  constructor(private readonly bluetoothService: BluetoothService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.bluetoothService.deviceConnected$.subscribe((value) => {
+      this.bluetoothStatus = value;
+    });
+  }
 
   openMenu() {
     this.toggleMenu.emit();

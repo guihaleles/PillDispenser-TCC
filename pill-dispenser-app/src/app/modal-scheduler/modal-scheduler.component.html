@@ -1,0 +1,27 @@
+<div class="modal-scheduler flex-2" *ngIf="page === 1">
+  <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
+  <div class="text-1">Dispensador rotacionando para a posição desejada</div>
+</div>
+
+<div class="modal-scheduler flex-2" *ngIf="page === 2">
+  <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
+  <div class="text-1">Aguardando a inserção do medicamento</div>
+</div>
+
+<div class="modal-scheduler flex-2" *ngIf="page === 3">
+  <div class="icon"><ion-icon name="checkmark"></ion-icon></div>
+  <div class="text-1">Medicamento inserido com sucesso</div>
+</div>
+
+<div class="modal-scheduler flex-2" *ngIf="page === 10">
+  <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
+  <div class="text-1">Cancelando</div>
+</div>
+
+<ion-button expand="block" (click)="cancel()" color="danger" *ngIf="page < 3"
+  >Cancelar
+</ion-button>
+
+<ion-button expand="block" (click)="close()" *ngIf="page === 3"
+  >Fechar
+</ion-button>
