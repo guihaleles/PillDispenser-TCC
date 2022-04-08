@@ -1,0 +1,44 @@
+.modal-scheduler {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
+}
+.flex-2 {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+}
+.spiner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  ion-spinner {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  ion-icon {
+    width: 70px;
+    height: 70px;
+    color: green;
+  }
+}
+
+.text-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}

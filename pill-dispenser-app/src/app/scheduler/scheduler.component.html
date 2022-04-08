@@ -1,0 +1,39 @@
+<ion-content fullscreen>
+  <div>
+    <ion-card>
+      <div class="title">
+        <strong>Agendador de horários de dispensa</strong>
+      </div>
+    </ion-card>
+  </div>
+  <div class="scroll-area">
+    <ion-card *ngFor="let slot of slots">
+      <ion-card-header>
+        <strong>{{ slot }}º Abertura</strong>
+      </ion-card-header>
+
+      <ion-card-content>
+        Horário do medicamento:
+        <ion-item>
+          <ion-label>H:mm</ion-label>
+          <ion-datetime
+            display-format="H:mm"
+            picker-format="H:mm"
+            cancel-text="Cancelar"
+            done-text="Confirmar"
+          ></ion-datetime>
+        </ion-item>
+        Medicamentos:
+        <ion-item>
+          <ion-textarea
+            placeholder="Medicamentos a serem inseridos nessa abertura..."
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-button expand="block" (click)="openingConfigProcess(slot)"
+          >Iniciar processo de inserção
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

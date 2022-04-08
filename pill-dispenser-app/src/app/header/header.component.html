@@ -1,0 +1,23 @@
+<ion-header>
+  <div class="top-bar">
+    <div class="menu-button">
+      <ion-button color="light" (click)="openMenu()">
+        <ion-icon name="menu-outline"></ion-icon
+      ></ion-button>
+    </div>
+    <div class="information">
+      <div>
+        <ion-icon
+          name="battery-full"
+          class="battery-full"
+          color="primary"
+        ></ion-icon>
+        {{ battery }}%
+      </div>
+      <div>
+        <ion-icon name="bluetooth" class="bluetooth" color="primary"></ion-icon>
+        {{ bluetoothStatus }}
+      </div>
+    </div>
+  </div>
+</ion-header>
