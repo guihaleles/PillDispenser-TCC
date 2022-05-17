@@ -12,6 +12,7 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { ConfigComponent } from './config/config.component';
 import { ModalSchedulerComponent } from './modal-scheduler/modal-scheduler.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ModalSchedulerComponent } from './modal-scheduler/modal-scheduler.compo
     IonicModule.forRoot(),
     AppRoutingModule,
     CommonModule,
+    FormsModule,
   ],
   providers: [
     BluetoothSerial,

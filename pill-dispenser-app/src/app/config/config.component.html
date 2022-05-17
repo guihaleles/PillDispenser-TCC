@@ -15,13 +15,16 @@
       <ion-card-content>
         Nome do dispositivo:
         <ion-item>
-          <ion-textarea
+          <ion-input
+            (ionInput)="changeDeviceToPairName()"
+            [(ngModel)]="deviceName"
+            name="deviceName"
             placeholder="Nome do dispositivo a ser conectado Ex. HC06 "
-          ></ion-textarea>
+          ></ion-input>
         </ion-item>
         Senha:
         <ion-item>
-          <ion-textarea placeholder=""></ion-textarea>
+          <ion-input placeholder=""></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -29,11 +32,37 @@
       <ion-card-header>
         <strong>Teste de conexão com o dispositivo</strong>
       </ion-card-header>
-
       <ion-card-content>
         <ion-button expand="block" (click)="initConectionTest()"
           >Iniciar teste de conexão
         </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <strong>Comando</strong>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="command"
+            name="command"
+            placeholder="Comando"
+          ></ion-input>
+          <ion-button expand="block" (click)="sendCommand()"
+            >Enviar
+          </ion-button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <strong>Conteudo para Debug, REMOVER!!!!</strong>
+      </ion-card-header>
+      <ion-card-content>
+        {{ deviceMessage }}
       </ion-card-content>
     </ion-card>
     <ion-card>
@@ -41,7 +70,7 @@
         <strong>Conteudo para Debug, REMOVER!!!!</strong>
       </ion-card-header>
       <ion-card-content>
-        {{ deviceMessage }}
+        {{ bluetoothServiceMsgs.join(" / ") }}
       </ion-card-content>
     </ion-card>
   </div>

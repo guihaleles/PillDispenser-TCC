@@ -1,3 +1,4 @@
+import { Byte } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
@@ -26,8 +27,9 @@ export enum DeviceConnectionState {
 })
 export class BluetoothService {
   pairedList: Pairedlist[];
-  deviceName = '';
+  deviceName = 'HC-06';
   deviceMessage$ = new Subject<string>();
+  bluetoothServiceMsgs$ = new Subject<string>();
   deviceConnected$ = new BehaviorSubject<DeviceConnectionState>(
     DeviceConnectionState.disconnected
   );
@@ -60,13 +62,13 @@ export class BluetoothService {
     this.deviceConnected$.next(DeviceConnectionState.disconnected);
     this.bluetoothSerial.isEnabled().then(
       (success) => {
+        this.bluetoothServiceMsgs$.next(JSON.stringify(success));
         this.listPairedDevices();
       },
-      (error) => {
-        this.toast(error);
-        this.alert('Por favor Habilite o Bluetooth').then(() => {
-          this.checkBluetoothEnabled();
-        });
+      async (err) => {
+        await this.alert('Por favor Habilite o Bluetooth');
+        await this.error(err, 'pairWithDeviceOnList');
+        this.checkBluetoothEnabled();
       }
     );
   }
@@ -76,49 +78,55 @@ export class BluetoothService {
     this.bluetoothSerial.list().then(
       (data: Pairedlist[]) => {
         this.pairWithDeviceOnList(data);
+        this.bluetoothServiceMsgs$.next('Devices:' + JSON.stringify(data));
       },
-      (err) => {
-        this.toast(err);
-        this.alert('Por favor Habilite o Bluetooth').then(() => {
-          this.checkBluetoothEnabled();
-        });
+      async (err) => {
+        await this.alert('Por favor Habilite o Bluetooth');
+        await this.error(err, 'pairWithDeviceOnList');
+        this.checkBluetoothEnabled();
       }
     );
   }
 
-  pairWithDeviceOnList(pairedlist: Pairedlist[]) {
+  async pairWithDeviceOnList(pairedlist: Pairedlist[]) {
     const device = pairedlist.filter(
-      (deviceItem) =>
-        deviceItem.name === 'HC-06' || 'NAUTO31' || this.deviceName
+      (deviceItem) => deviceItem.name === this.deviceName
     )[0];
     this.toast(device.name);
     if (device) {
       this.bluetoothSerial.connect(device.address).subscribe(
         (connectSuccess) => {
           this.deviceConnected$.next(DeviceConnectionState.connected);
+          this.bluetoothServiceMsgs$.next(
+            'Device:' + JSON.stringify(device.name)
+          );
           this.deviceConnected();
         },
-        (err) => {
+        async (err) => {
           this.deviceConnected$.next(DeviceConnectionState.disconnected);
-          this.toast(err);
+          await this.error(err, 'pairWithDeviceOnList');
+          this.checkBluetoothEnabled();
         }
       );
     } else {
-      this.toast('HC-06 não pareado').then(() => {
-        this.checkBluetoothEnabled();
-      });
+      await this.error(
+        'Não pareado, device não encontrado',
+        'pairWithDeviceOnList'
+      );
+      this.checkBluetoothEnabled();
     }
   }
 
   deviceConnected() {
     // Subscribe to data receiving as soon as the delimiter is read
-    this.bluetoothSerial.subscribe('\n').subscribe(
+    this.bluetoothSerial.subscribe(' ').subscribe(
       (success: string) => {
         this.toast(success);
+        this.bluetoothServiceMsgs$.next(JSON.stringify(success));
         this.deviceMessage$.next(success);
       },
-      (error) => {
-        this.toast(error);
+      async (err) => {
+        await this.error(err, 'deviceConnected');
         this.checkBluetoothEnabled();
       }
     );
@@ -131,15 +139,41 @@ export class BluetoothService {
     }
   }
 
-  sendCommand(deviceActions: DeviceActions) {
-    const unit8Array = CODE_ACTION_MAP[deviceActions];
+  sendCommand(unit8Array: Byte[]) {
+    const defaultData = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
     this.bluetoothSerial.write(unit8Array).then(
       (success) => {
-        // this.toast(success);
+        this.bluetoothServiceMsgs$.next(
+          'sendCommand success:' + JSON.stringify(success)
+        );
       },
-      (error) => {
-        this.toast(error);
+      async (err) => {
+        await this.error(err, 'sendCommand');
       }
     );
+  }
+
+  sendCommandString(command: string = '') {
+    this.bluetoothSerial.write(command).then(
+      (success) => {
+        this.bluetoothServiceMsgs$.next(
+          'sendCommandString success:' + JSON.stringify(success)
+        );
+      },
+      async (err) => {
+        await this.error(err, 'sendCommandString');
+      }
+    );
+  }
+
+  async error(err: any, functionName: string) {
+    const error = functionName + ' : ' + JSON.stringify(err);
+    this.bluetoothServiceMsgs$.next(error);
+    await this.toast(error);
+    await this.sleeper(5000);
+  }
+
+  sleeper(ms) {
+    return new Promise((resolve) => setTimeout(() => resolve(''), ms));
   }
 }

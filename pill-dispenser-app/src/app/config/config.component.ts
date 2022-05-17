@@ -9,15 +9,39 @@ import { DeviceActions } from '../bluetooth/codeMap.entity';
 })
 export class ConfigComponent implements OnInit {
   deviceMessage = 'Init';
+  deviceName = '';
+  command: string = '';
+  bluetoothServiceMsgs = [''];
   constructor(private readonly bluetoothService: BluetoothService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.deviceName = this.bluetoothService.deviceName;
+    this.bluetoothService.bluetoothServiceMsgs$.subscribe((msg) => {
+      this.bluetoothServiceMsgs.push(msg);
+    });
+  }
 
   initConectionTest() {
     this.bluetoothService.toast('Iniciando teste de conexão');
-    this.bluetoothService.sendCommand(DeviceActions.isAlive);
+    const defaultData = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
+    this.bluetoothService.sendCommand(defaultData);
     this.bluetoothService.deviceMessage$.subscribe((msg) => {
       this.deviceMessage = msg;
     });
+  }
+
+  changeDeviceToPairName() {
+    this.bluetoothService.deviceName = this.deviceName;
+  }
+
+  sendCommand() {
+    console.log('commando: ' + JSON.stringify(this.command));
+    const commandParsed = this.command.split(' ');
+    const data: number[] = [];
+    commandParsed.forEach((commandData, index) => {
+      data.push(parseInt(commandData));
+    });
+
+    this.bluetoothService.sendCommand(data);
   }
 }
