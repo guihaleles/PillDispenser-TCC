@@ -1,15 +1,15 @@
 export enum DeviceActions {
   isAlive = 'isAlive',
   sendTimeSetting = 'sendTimeSetting',
-  openingTimeSetting = 'openingTimeSetting',
-  batteryLevel = 'batteryLevel',
+  getConfigDispenserTime = 'getConfigDispenserTime',
+  updateRtc = 'updateRtc',
 }
 
 export const CODE_ACTION_MAP: Record<DeviceActions, number> = {
   isAlive: 1,
   sendTimeSetting: 2,
-  openingTimeSetting: 3,
-  batteryLevel: 4,
+  getConfigDispenserTime: 3,
+  updateRtc: 4,
 };
 
 export interface DeviceMessage {

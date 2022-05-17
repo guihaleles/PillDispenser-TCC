@@ -10,7 +10,6 @@ export class AppComponent {
     { title: 'Agendador', url: '/scheduler', icon: 'time' },
     { title: 'Configurador', url: '/config', icon: 'settings' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(private menu: MenuController) {}
 

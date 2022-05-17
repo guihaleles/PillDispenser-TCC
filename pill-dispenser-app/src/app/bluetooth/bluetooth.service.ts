@@ -8,6 +8,7 @@ import {
   DeviceActions,
   DeviceMessage,
 } from './codeMap.entity';
+import { MessageService } from './message.service';
 
 interface Pairedlist {
   class: number;
@@ -36,7 +37,8 @@ export class BluetoothService {
   constructor(
     private bluetoothSerial: BluetoothSerial,
     public toastController: ToastController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private readonly msgService: MessageService
   ) {
     this.checkBluetoothEnabled();
   }
@@ -121,7 +123,8 @@ export class BluetoothService {
     // Subscribe to data receiving as soon as the delimiter is read
     this.bluetoothSerial.subscribe(' ').subscribe(
       (success: string) => {
-        this.toast(success);
+        this.updateRtc();
+        this.toast('Sucesso - Dispositivo conectado');
         this.bluetoothServiceMsgs$.next(JSON.stringify(success));
         this.deviceMessage$.next(success);
       },
@@ -169,11 +172,17 @@ export class BluetoothService {
   async error(err: any, functionName: string) {
     const error = functionName + ' : ' + JSON.stringify(err);
     this.bluetoothServiceMsgs$.next(error);
-    await this.toast(error);
+    this.toast(error);
     await this.sleeper(5000);
   }
 
   sleeper(ms) {
     return new Promise((resolve) => setTimeout(() => resolve(''), ms));
+  }
+
+  updateRtc() {
+    const date = new Date(Date.now());
+    const msg = this.msgService.getUpdateRTCMsg(date);
+    this.sendCommand(msg);
   }
 }

@@ -15,9 +15,12 @@
       <ion-card-content>
         Horário do medicamento:
         <ion-item>
-          <ion-label>H:mm</ion-label>
+          <ion-label>DD-MMM-AA HH:mm:ss</ion-label>
           <ion-datetime
+            (ionChange)="dateTimeChange($event.detail.value, slot)"
             locale="pt-BR"
+            presentation="time-date"
+            displayFormat="DD-MMM-YY HH:mm:ss"
             cancel-text="Cancelar"
             done-text="Confirmar"
           ></ion-datetime>
