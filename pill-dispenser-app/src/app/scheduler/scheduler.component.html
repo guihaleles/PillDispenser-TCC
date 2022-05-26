@@ -9,7 +9,7 @@
   <div class="scroll-area">
     <ion-card *ngFor="let slot of slots">
       <ion-card-header>
-        <strong>{{ slot }}º Abertura</strong>
+        <strong>{{ slot.slotNumber + 1 }}º Abertura</strong>
       </ion-card-header>
 
       <ion-card-content>
@@ -17,18 +17,20 @@
         <ion-item>
           <ion-label>DD-MMM-AA HH:mm:ss</ion-label>
           <ion-datetime
-            (ionChange)="dateTimeChange($event.detail.value, slot)"
             locale="pt-BR"
             presentation="time-date"
             displayFormat="DD-MMM-YY HH:mm:ss"
             cancel-text="Cancelar"
             done-text="Confirmar"
+            [value]="slot.dateTime"
+            (ionChange)="dateTimeChange($event.detail.value, slot)"
           ></ion-datetime>
         </ion-item>
         Medicamentos:
         <ion-item>
           <ion-textarea
             placeholder="Medicamentos a serem inseridos nessa abertura..."
+            [(ngModel)]="slot.medication"
           ></ion-textarea>
         </ion-item>
 

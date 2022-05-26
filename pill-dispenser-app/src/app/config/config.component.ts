@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BluetoothService } from '../bluetooth/bluetooth.service';
-import { DeviceActions } from '../bluetooth/codeMap.entity';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { BluetoothService } from '../services/bluetooth.service';
+import { DeviceActions } from '../services/codeMap.entity';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-config',
@@ -12,22 +13,26 @@ export class ConfigComponent implements OnInit {
   deviceName = '';
   command: string = '';
   bluetoothServiceMsgs = [''];
-  constructor(private readonly bluetoothService: BluetoothService) {}
+  constructor(
+    private readonly bluetoothService: BluetoothService,
+    private readonly messageService: MessageService,
+    private _cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.deviceName = this.bluetoothService.deviceName;
     this.bluetoothService.bluetoothServiceMsgs$.subscribe((msg) => {
-      this.bluetoothServiceMsgs.push(msg);
+      this.bluetoothServiceMsgs = Object.assign(
+        this.bluetoothService.bluetoothServiceMsgs
+      );
+      this._cdr.detectChanges();
     });
   }
 
   initConectionTest() {
     this.bluetoothService.toast('Iniciando teste de conexão');
-    const defaultData = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
+    const defaultData = this.messageService.getIsAliveMessage();
     this.bluetoothService.sendCommand(defaultData);
-    this.bluetoothService.deviceMessage$.subscribe((msg) => {
-      this.deviceMessage = msg;
-    });
   }
 
   changeDeviceToPairName() {
