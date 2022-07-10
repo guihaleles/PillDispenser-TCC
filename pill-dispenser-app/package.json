@@ -1,7 +1,7 @@
 {
   "name": "pill-dispenser-app",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Guilherme H. A. Leles",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",

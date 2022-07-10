@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BluetoothService, RXBUFFERSIZE } from '../services/bluetooth.service';
 import { CODE_ACTION_MAP } from '../services/codeMap.entity';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-modal-scheduler',
@@ -9,13 +10,15 @@ import { CODE_ACTION_MAP } from '../services/codeMap.entity';
   styleUrls: ['./modal-scheduler.component.scss'],
 })
 export class ModalSchedulerComponent implements OnInit {
-  page = 0;
   @Input() slot: number;
+  page = 0;
+  command = 0;
 
   constructor(
     private readonly modalController: ModalController,
     private readonly bluetoothService: BluetoothService,
-    private _cdr: ChangeDetectorRef
+    private readonly msgService: MessageService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -25,29 +28,28 @@ export class ModalSchedulerComponent implements OnInit {
     });
   }
 
-  receiveCommand(command: Uint8Array) {
+  receiveCommand(command: number[]) {
     const commandType = command[RXBUFFERSIZE - 1];
+    this.command = commandType;
     const slot = command[RXBUFFERSIZE - 2];
-    if (slot == this.slot)
+
+    if (slot === this.slot) {
       switch (commandType) {
-        case CODE_ACTION_MAP.startInsertionProcess:
-          this.bluetoothService.toast('modal recebi pag1');
-          this.page = 1;
-          this._cdr.detectChanges();
+        case CODE_ACTION_MAP.startDispenserRotationProcess:
+          this.page++;
+          this.cdr.detectChanges();
           break;
-        case CODE_ACTION_MAP.waitingForInsertion:
-          this.bluetoothService.toast('modal recebi pag2');
-          this.page = 2;
-          this._cdr.detectChanges();
-          break;
-        case CODE_ACTION_MAP.pillInserted:
-          this.bluetoothService.toast('modal recebi pag3');
-          this.page = 3;
-          this._cdr.detectChanges();
+
+        case CODE_ACTION_MAP.finishInsetionProcess:
+          this.page++;
+          this.cdr.detectChanges();
           break;
         default:
           break;
       }
+
+      this.cdr.detectChanges();
+    }
   }
 
   nextPage = () => {
@@ -57,12 +59,37 @@ export class ModalSchedulerComponent implements OnInit {
     }
   };
 
-  cancel() {
-    this.page = 10;
-    setTimeout(this.close, 3.0 * 1000);
+  finish() {
+    this.page = 3;
+    this.finishInsertionProcess();
+  }
+
+  start() {
+    this.startInsertionProcess();
+    this.page = 1;
+    setTimeout(() => {
+      this.page = 2;
+    }, 3.0 * 1000);
+  }
+
+  async startInsertionProcess() {
+    const msg = this.msgService.getStartInsertionProcess(this.slot);
+    await this.bluetoothService.sendCommand(msg);
+  }
+
+  async finishInsertionProcess() {
+    const msg = this.msgService.getFinishInsertionProcess(this.slot);
+    await this.bluetoothService.sendCommand(msg);
+  }
+
+  async sendSlotFilledMsg() {
+    console.log('enviada');
+    const msg = this.msgService.getSlotsPillsInsertedmsg();
+    await this.bluetoothService.sendCommand(msg);
   }
 
   close = () => {
+    this.sendSlotFilledMsg();
     this.modalController.dismiss();
   };
 }

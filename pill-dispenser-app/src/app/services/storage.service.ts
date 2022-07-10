@@ -7,8 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
   providedIn: 'root',
 })
 export class StorageService {
-  private _storage: Storage | null = null;
   storageReady = new BehaviorSubject<boolean>(false);
+  private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
     this.init();
@@ -26,5 +26,9 @@ export class StorageService {
 
   public get(key: string) {
     return this._storage?.get(key);
+  }
+
+  public setU(value: any) {
+    return this._storage?.set('historico', value);
   }
 }

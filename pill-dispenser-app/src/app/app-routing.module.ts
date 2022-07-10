@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ConfigComponent } from './config/config.component';
+import { HistoricoComponent } from './historico/historico.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 
 const routes: Routes = [
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: 'scheduler',
     component: SchedulerComponent,
   },
+  {
+    path: 'historico',
+    component: HistoricoComponent,
+  },
+
   {
     path: 'config',
     component: ConfigComponent,

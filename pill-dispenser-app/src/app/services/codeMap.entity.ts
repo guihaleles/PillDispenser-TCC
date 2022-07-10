@@ -6,9 +6,8 @@ export enum DeviceActions {
   getRtc = 'getRtc',
   startDispenserRotationProcess = 'startDispenserRotationProcess',
   startInsertionProcess = 'startInsertionProcess',
-  waitingForInsertion = 'waitingForInsertion',
-  pillInserted = 'pillInserted',
-  returningToHome = 'returningToHome',
+  finishInsetionProcess = 'finishInsetionProcess',
+  getSlotsPillsInserted = 'getSlotsPillsInserted',
 }
 
 export const CODE_ACTION_MAP: Record<DeviceActions, number> = {
@@ -19,9 +18,8 @@ export const CODE_ACTION_MAP: Record<DeviceActions, number> = {
   getRtc: 5,
   startDispenserRotationProcess: 6,
   startInsertionProcess: 11,
-  waitingForInsertion: 12,
-  pillInserted: 13,
-  returningToHome: 14,
+  finishInsetionProcess: 12,
+  getSlotsPillsInserted: 16,
 };
 
 export interface DeviceMessage {

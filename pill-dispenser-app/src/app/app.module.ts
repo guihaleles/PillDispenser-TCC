@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { HistoricoComponent } from './historico/historico.component';
+import { BluetoothService } from './services/bluetooth.service';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     HeaderComponent,
     SchedulerComponent,
     ConfigComponent,
+    HistoricoComponent,
     ModalSchedulerComponent,
   ],
   entryComponents: [],

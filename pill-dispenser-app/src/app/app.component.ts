@@ -8,6 +8,7 @@ import { MenuController } from '@ionic/angular';
 export class AppComponent {
   public appPages = [
     { title: 'Agendador', url: '/scheduler', icon: 'time' },
+    { title: 'Histórico', url: '/historico', icon: 'book' },
     { title: 'Configurador', url: '/config', icon: 'settings' },
   ];
 

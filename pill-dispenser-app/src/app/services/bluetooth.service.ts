@@ -1,5 +1,5 @@
 import { Byte } from '@angular/compiler/src/util';
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -32,7 +32,7 @@ export class BluetoothService {
   pairedList: BlDevice[];
   deviceName = 'HC-06';
   deviceMessage$ = new Subject<string>();
-  command$ = new Subject<Uint8Array>();
+  command$ = new Subject<number[]>();
   bluetoothServiceMsgs$ = new Subject<string>();
   bluetoothServiceMsgs: string[] = [];
   deviceConnected$ = new BehaviorSubject<DeviceConnectionState>(
@@ -42,6 +42,7 @@ export class BluetoothService {
     private bluetoothSerial: BluetoothSerial,
     public toastController: ToastController,
     public alertController: AlertController,
+
     private readonly msgService: MessageService
   ) {
     this.startBluetoothConnection();
@@ -133,16 +134,17 @@ export class BluetoothService {
   }
 
   receivedCommand(data: Uint8Array) {
-    this.command$.next(data);
+    const array = Array.from(data);
+    this.command$.next(array);
   }
 
   dispenserStarted() {}
 
   async sendCommand(unit8Array: number[]) {
     try {
-      this.toast(unit8Array.toString());
+      console.log(unit8Array.toString());
       await this.bluetoothSerial.write(unit8Array);
-      this.toast('messagem enviada');
+      this.toast('messagem enviada:' + unit8Array.toString());
     } catch (error) {
       this.toast('Erro ao enviar messagem');
     }

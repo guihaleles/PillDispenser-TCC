@@ -1,6 +1,8 @@
 <div class="modal-scheduler flex-2" *ngIf="page === 0">
-  <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
-  <div class="text-1">Iniciando processo de inserção</div>
+  <div class="text-1">
+    Você deseja iniciar o processo de inserção de medicamento para a abertura
+    {{ slot }}?
+  </div>
 </div>
 
 <div class="modal-scheduler flex-2" *ngIf="page === 1">
@@ -9,24 +11,29 @@
 </div>
 
 <div class="modal-scheduler flex-2" *ngIf="page === 2">
-  <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
-  <div class="text-1">Aguardando a inserção do medicamento</div>
+  <div class="text-1">
+    Insira a pílula de medicamento e em seguida finalize o processo
+  </div>
 </div>
 
 <div class="modal-scheduler flex-2" *ngIf="page === 3">
-  <div class="icon"><ion-icon name="checkmark"></ion-icon></div>
-  <div class="text-1">Medicamento inserido com sucesso</div>
-</div>
-
-<div class="modal-scheduler flex-2" *ngIf="page === 10">
   <div class="spiner"><ion-spinner color="secondary"></ion-spinner></div>
-  <div class="text-1">Cancelando</div>
+  <div class="text-1">Finalizando processo</div>
 </div>
 
-<ion-button expand="block" (click)="cancel()" color="danger" *ngIf="page < 3"
-  >Cancelar
+<div class="modal-scheduler flex-2" *ngIf="page === 4">
+  <div class="icon"><ion-icon name="checkmark"></ion-icon></div>
+  <div class="text-1">Processo finalizado com sucesso</div>
+</div>
+
+<ion-button expand="block" (click)="start()" *ngIf="page === 0"
+  >Confirmar
 </ion-button>
 
-<ion-button expand="block" (click)="close()" *ngIf="page === 3"
+<ion-button expand="block" (click)="finish()" *ngIf="page < 3 && page > 0"
+  >Finalizar processo!
+</ion-button>
+
+<ion-button expand="block" (click)="close()" *ngIf="page > 3"
   >Fechar
 </ion-button>

@@ -1,0 +1,34 @@
+<ion-content fullscreen>
+  <div>
+    <ion-card>
+      <div class="title">
+        <strong>Histórico de dispensa</strong>
+      </div>
+    </ion-card>
+  </div>
+  <div class="scroll-area">
+    <ion-card *ngFor="let historico of historicos">
+      <ion-card-header>
+        <strong>{{ historico.dateTime }}</strong>
+      </ion-card-header>
+
+      <ion-card-content>
+        Dipensa realizada:
+        <ion-item>
+          <ion-label>{{ historico.dispensed }}</ion-label>
+        </ion-item>
+        Medicamento retirado:
+        <ion-item>
+          <ion-label>{{ historico.pillRemoved }}</ion-label>
+        </ion-item>
+        Medicamentos:
+        <ion-item>
+          <ion-textarea
+            placeholder="Medicamentos dispensados"
+            [(ngModel)]="historico.medication"
+          ></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
